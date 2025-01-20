@@ -1,0 +1,339 @@
+    // Entity file //  
+
+
+package com.JPA.Spring_Data_Jpa.Entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+// name changing //
+@Table(                         // create table products
+        name = "products",
+        schema = "ecommerce",    // database name//
+        uniqueConstraints =
+                {
+                        @UniqueConstraint(name = "sku_unique", columnNames = "sku")
+                }
+
+)
+public class Product {
+
+@Id
+@GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+generator="product_generator"
+)
+@SequenceGenerator(
+        name="product_generator",
+sequenceName = "product_sequence_name",
+        allocationSize = 1
+)
+// it can be used for the IDNTITY :   id bigint not null auto_increment,
+    private long id;
+    private String sku;
+    private String name;
+    private String description;
+    private long price;
+    private  boolean active;
+    private String imageurl;
+
+    @CreationTimestamp
+    private LocalDateTime datecreated;
+    @UpdateTimestamp
+    @Column(name = "latesttime")        //  latesttime datetime(6),
+    private LocalDateTime lastupdatedtime;
+
+
+    public String getDescription(String updatedDescription) {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    public LocalDateTime getDatecreated() {
+        return datecreated;
+    }
+
+    public void setDatecreated(LocalDateTime datecreated) {
+        this.datecreated = datecreated;
+    }
+
+    public LocalDateTime getLastupdatedtime() {
+        return lastupdatedtime;
+    }
+
+    public void setLastupdatedtime(LocalDateTime lastupdatedtime) {
+        this.lastupdatedtime = lastupdatedtime;
+    }
+}
+
+
+
+//  In test we can written the backend data without wriiting sql query we can written data using spring data jpa  //
+
+
+package com.JPA.Spring_Data_Jpa.repository;
+
+import com.JPA.Spring_Data_Jpa.Entity.Product;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+class ProductRepositoryTest {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+
+/*
+    @Test
+    void savemethod()
+    {
+        // create aa product
+
+        Product product=new Product();
+        product.setName("product 2");
+        product.setDescription("2 product description ");
+        product.setSku("200ABC");
+        product.setPrice( new Long(200));
+        product.setActive(true);
+        product.setImageurl("product1.png");
+
+
+        // save repository //
+
+        Product savedobj=productRepository.save(product);
+
+        // here displaying the product //
+        System.out.println(savedobj.toString());
+    }
+}
+
+/*
+    @Test
+    void updatedusingSavemethod() {
+// here whatever data you want to enter that id //
+        Long id = 1L;
+        Product product = productRepository.findById(id).get();
+
+        // updating the  query //
+        product.setName("updated name");
+        product.setDescription("updated description");
+
+        // save the updated entity //
+        Product savedob=productRepository.save(product);
+        System.out.println(savedob);
+
+    }
+}
+// output //
+// Product(id=1, sku=100ABC, name=updated name, description=updated description, price=100, active=true, imageurl=product1.png, datecreated=2025-01-06T12:15:04.239849, lastupdatedtime=2025-01-06T13:03:52.578526)
+
+
+ */
+    /*
+    @Test
+    void findbyidmethod() {
+        Long id = 1l;
+        Product product = productRepository.findById(id).get();
+    }
+}
+
+// output ://
+/*
+Hibernate:
+    select
+        p1_0.id,
+        p1_0.active,
+        p1_0.datecreated,
+        p1_0.description,
+        p1_0.imageurl,
+        p1_0.latesttime,
+        p1_0.name,
+        p1_0.price,
+        p1_0.sku
+    from
+        products p1_0
+    where
+        p1_0.id=?
+ */
+/*
+@Test
+void SaveAllbymethod()
+{
+    Product product=new Product();
+    product.setName("product 2");
+    product.setDescription("2 product description ");
+    product.setSku("200ABC");
+    product.setPrice( new Long(200));
+    product.setActive(true);
+    product.setImageurl("product2.png");
+
+    Product product2=new Product();
+    product2.setName("product 3");
+    product2.setDescription("3 product description ");
+    product2.setSku("300ABC");
+    product2.setPrice( new Long(400));
+    product2.setActive(true);
+    product2.setImageurl("product3.png");
+
+    productRepository.saveAll(List.of(product,product2));
+}
+}
+*/
+    /*
+    @Test
+    void findAllMethod() {
+        // Fetch all products from the repository
+        List<Product> products = productRepository.findAll();
+
+        // Loop through each product and print its name
+        products.forEach(product -> System.out.println(product.getName()));
+    }
+
+}
+*/
+// updated name
+//product 3
+
+// for deleting //
+/*
+@Test
+void deletebyid()
+{
+    Long id=3L;
+productRepository.deleteById(id);
+}
+;}
+
+ */
+// delete Id it can remove one entity //
+    /*
+@Test
+void deletemethod()
+{
+    Long id=2L;
+    Product product=productRepository.findById(id).get();
+    productRepository.delete(product);
+}
+}*/
+/*
+@Test
+void deleteall()
+{
+   productRepository.deleteAll();
+}
+}
+*/
+/*
+@Test
+void countmethod()
+{
+Long count=productRepository.count();
+System.out.println(count);
+}
+}
+*/
+// output :
+/* Hibernate:
+    select
+        count(*)
+    from
+        products p1_0
+2
+
+ */
+
+// exists by id method //
+@Test
+void existbyid()
+{
+Long id=14L;
+boolean result=productRepository.existsById(id);
+System.out.println(result);
+}
+}
+
+// output :
+/* Hibernate:
+    select
+        count(*)
+    from
+        products p1_0
+    where
+        p1_0.id=?
+true
+*/
+
+// it can be create the tables in sql// 
+
+
+
+
