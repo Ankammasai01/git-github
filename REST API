@@ -1,0 +1,70 @@
+examples of REST API's with source code 
+
+
+package com.SpringExample.Example_RESTAPIS.Controller;
+
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class contro {
+
+
+
+    @GetMapping("/home")
+    public String home(){
+        return "  ..... Welcome....Boss....";
+    }
+@GetMapping("/sai")
+public  String name(){
+        return "Ankammasai";
+    }
+
+    @GetMapping("/beauty")
+    public String beauty(){
+        return "...You are too beautyfull...";
+    }
+
+    @GetMapping("/Home")
+    public String nome()
+    {
+        return ".....Hello welcome to this page....";
+    }
+
+    @GetMapping("/contact")
+    public String contact(){
+        return "7337448856";
+    }
+    @GetMapping("/mail")
+    public String mail(){
+        return "ankammasaip@gmail.com";
+    }
+    @GetMapping("/payment")
+    public String payment()
+    {
+        return "733748856@ybl : 10000";
+
+    }
+
+    @GetMapping("/welcome")
+    public String welcome() {
+        return "welcome too u";
+    }
+    @GetMapping("/Thank u")
+    public String thank()
+    {
+        return "Thanking u";
+    }
+
+    @GetMapping("/finance")
+    public String finance()
+    {
+        return "welcome to ....YONO....SBI....";
+    }
+    @GetMapping("/youtube")
+    public String youtube()
+    {
+        return " https://www.youtube.com/";
+    }
+}
